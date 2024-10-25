@@ -2,7 +2,7 @@ import re
 # from django.contrib.auth.mixins import (LoginRequiredMixin, PermissionRequiredMixin, )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
-
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .freshdesk_agent import FreshdeskAgent
@@ -237,3 +237,6 @@ def new_ticket_freshdesk(request):
         return redirect('success_page')  # Redirect to a success page after submission
 
     return render(request, 'tracker/freshdesk_create.html')
+
+def health_check(request):
+    return HttpResponse("OK", status=200)

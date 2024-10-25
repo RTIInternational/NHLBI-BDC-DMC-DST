@@ -10,4 +10,5 @@ urlpatterns = [
     path("new_ticket_freshdesk/", views.CreateFreshdeskTicket.as_view(), name="new-ticket-freshdesk"),
     path("user_docs/", views.DocumentationView.as_view(), name="documentation"),
     path("about/", views.AboutView.as_view(), name="about"),
+    path("health/", views.health_check, name="health-check"),
 ]
