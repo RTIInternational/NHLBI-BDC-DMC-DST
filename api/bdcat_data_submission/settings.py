@@ -47,12 +47,16 @@ else:
         "No local .env or GOOGLE_CLOUD_PROJECT detected. Using container environment variables."
     )
 
+DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
+AWS_SITE_URL = env("AWS_SITE_URL")
+
 JIRA_BASE_URL = env("JIRA_BASE_URL")
 JIRA_TOKEN = env("JIRA_TOKEN")
 JIRA_BOARD_ID = env("JIRA_BOARD_ID")
 JIRA_PROJECT = env("JIRA_PROJECT")
 JIRA_EPIC_ISSUETYPE = env("JIRA_EPIC_ISSUETYPE")
+
 FRESHDESK_BASE_URL = env("FRESHDESK_BASE_URL")
 FRESHDESK_AUTH_USER = env("FRESHDESK_AUTH_USER")
 FRESHDESK_AUTH_PASSWORD = env("FRESHDESK_AUTH_PASSWORD")
@@ -60,7 +64,6 @@ FRESHDESK_GROUP_ID = env("FRESHDESK_GROUP_ID")
 
 
 # debug toolbar
-DEBUG = env("DEBUG")
 if DEBUG:
     import socket
 
@@ -255,17 +258,17 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("ACCOUNT_DEFAULT_HTTP_PROTOCOL", 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_ADAPTER = "nihsso.adapters.NIHSSOSocialAccountAdapter"
 
+SECURE_SSL_REDIRECT = True  # Redirects HTTP to HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Recognize the forwarded proto header as HTTPS
+
 SESSION_COOKIE_AGE = 30 * 60  # 30 minutes in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [AWS_SITE_URL]
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
-if os.environ.get("AZURE_SITES_URL", None):
-    CSRF_TRUSTED_ORIGINS = [env("AZURE_SITES_URL")]  # this is required for Django 4+
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
