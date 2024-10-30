@@ -47,8 +47,8 @@ else:
         "No local .env or GOOGLE_CLOUD_PROJECT detected. Using container environment variables."
     )
 
-DEBUG = env("DEBUG")
-DEPLOYED = env("DEPLOYED")
+DEBUG = env("DEBUG") == True
+DEPLOYED = env("DEPLOYED") == True
 SECRET_KEY = env("SECRET_KEY")
 AWS_SITE_URL = env("AWS_SITE_URL")
 
@@ -262,17 +262,12 @@ SOCIALACCOUNT_ADAPTER = "nihsso.adapters.NIHSSOSocialAccountAdapter"
 SESSION_COOKIE_AGE = 30 * 60  # 30 minutes in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 if DEPLOYED:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    CSRF_COOKIE_SECURE = True
     CSRF_TRUSTED_ORIGINS = [AWS_SITE_URL]
-else:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    SECURE_PROXY_SSL_HEADER = None
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
