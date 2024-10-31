@@ -93,6 +93,13 @@ cp api/.env.sample api/.env
 ```
 Set up the environment variables in the `.env` file with the appropriate values for your deployment.
 
+### Set up nginx
+We need a local proxy to send the requests to the application after the docker containers are running.
+```bash
+cp nginx.default /etc/nginx/sites-available/default
+sudo service nginx start
+```
+
 ### Build and run the Docker images
 The Data Submission Tracker uses Docker containers to run the Django server and PostgreSQL database. You will need to build the Docker images for the Django server and PostgreSQL database. You can use the following commands to build the Docker images:
 

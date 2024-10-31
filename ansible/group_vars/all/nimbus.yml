@@ -1,9 +1,0 @@
-db_dir: /opt/bdcat
-# NOTE: Deployment
-# Uncomment the appropriate Data directory for production or development below
-
-# Data directory for production/deployment
-# db_data_dir: /tickets/data
-
-# Data directory for development/testing
-db_data_dir: /bdcat/data

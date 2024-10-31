@@ -1,5 +1,5 @@
 """
-Django settings for bdcat_data_submission project.
+Django settings for BioData Catalyst Data Submission Tool project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/4.0/topics/settings/
@@ -8,69 +8,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
-import io
 import environ
-from google.cloud import secretmanager
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# Handle environment variables
-# SECURITY WARNING: This defaults to False, but set to True in your env file for local dev
 env = environ.Env(DEBUG=(bool, False))
-
-# load .env
 env_file = os.path.join(BASE_DIR, ".env")
+
 if os.path.isfile(env_file):
     print(
         "Using local .env file: " + env_file
     )
     # if local env file
     env.read_env(env_file)
-elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
-    # if running on GCP, use Secret Manager to get env variables
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
-
-    client = secretmanager.SecretManagerServiceClient()
-    settings_name = os.environ.get("SETTINGS_NAME", "django_settings")
-    name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
-    payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
-    env.read_env(io.StringIO(payload))
-    print(
-        "Using Google Cloud secrets"
-    )
 else:
     print(
-        "No local .env or GOOGLE_CLOUD_PROJECT detected. Using container environment variables."
+        "No local .env detected. Using container environment variables."
     )
 
+# Set variables from .env file or container environment
+DEBUG = env("DEBUG") == True
+DEPLOYED = env("DEPLOYED") == True
 SECRET_KEY = env("SECRET_KEY")
+AWS_SITE_URL = env("AWS_SITE_URL")
+
 JIRA_BASE_URL = env("JIRA_BASE_URL")
 JIRA_TOKEN = env("JIRA_TOKEN")
 JIRA_BOARD_ID = env("JIRA_BOARD_ID")
 JIRA_PROJECT = env("JIRA_PROJECT")
 JIRA_EPIC_ISSUETYPE = env("JIRA_EPIC_ISSUETYPE")
+
 FRESHDESK_BASE_URL = env("FRESHDESK_BASE_URL")
 FRESHDESK_AUTH_USER = env("FRESHDESK_AUTH_USER")
 FRESHDESK_AUTH_PASSWORD = env("FRESHDESK_AUTH_PASSWORD")
 FRESHDESK_GROUP_ID = env("FRESHDESK_GROUP_ID")
-
-
-# debug toolbar
-DEBUG = env("DEBUG")
-if DEBUG:
-    import socket
-
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
-
-# SECURITY WARNING: App Engine's security features ensure that it is safe to
-# have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
-# app not on App Engine, make sure to set an appropriate host here
-ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -85,27 +55,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "widget_tweaks",
-    "debug_toolbar",
     # all auth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # "allauth.socialaccount.providers.google",
     # custom nih sso provider
     "nihsso",
     # audit log
     "simple_history",
-    # health check
-    "health_check",
-    "health_check.db",
-    "health_check.cache",
-    "health_check.storage",
-    "health_check.contrib.migrations",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -163,6 +124,21 @@ LOGGING = {
     },
 }
 
+# Enable debug tools if DEBUG is True
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
+    import socket
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+# SECURITY WARNING: App Engine's security features ensure that it is safe to
+# have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
+# app not on App Engine, make sure to set an appropriate host here
+ALLOWED_HOSTS = ["*"]
+
 # Check if we're running in a Docker container
 if os.environ.get("SUMMARY", None):
     postgres_host = os.environ.get("POSTGRES_HOST")
@@ -207,21 +183,6 @@ AUTH_PASSWORD_VALIDATORS = [
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_PROVIDERS = {}
 
-if os.environ.get("GOOGLE_CLIENT_ID", None):
-    google_settings = {
-        "SCOPE": ["profile", "email", "openid"],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-        "APP": {
-            "client_id": env("GOOGLE_CLIENT_ID"),
-            "secret": env("GOOGLE_CLIENT_SECRET"),
-            "key": "",
-        },
-    }
-    SOCIALACCOUNT_PROVIDERS['google'] = google_settings
-    print("Adding Google as an Account Provider")
-
 if os.environ.get("NIH_CLIENT_ID", None):
     nih_settings = {
         "SCOPE": ["openid", "profile", "email", "member"],
@@ -260,12 +221,13 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+if DEPLOYED:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    CSRF_TRUSTED_ORIGINS = [AWS_SITE_URL]
+
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
-if os.environ.get("AZURE_SITES_URL", None):
-    CSRF_TRUSTED_ORIGINS = [env("AZURE_SITES_URL")]  # this is required for Django 4+
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -291,5 +253,5 @@ WHITENOISE_MANIFEST_STRICT = False
 
 # Misc
 ROOT_URLCONF = "bdcat_data_submission.urls"
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"  # Default primary key field type
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 WSGI_APPLICATION = "bdcat_data_submission.wsgi.application"
