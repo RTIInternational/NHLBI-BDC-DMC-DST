@@ -9,7 +9,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - touch nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
-      - aws s3 cp nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar s3://codepipeline-us-east-1-583102800307/nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar --sse AES256
+      - aws s3 cp nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar s3://bdc-dmc-dst-dashboard-app/nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
       
   post_build:
     commands:
