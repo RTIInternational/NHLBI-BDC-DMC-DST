@@ -1,4 +1,4 @@
-# Data Submission Tracker Deployment Guide -test
+# Data Submission Tracker Deployment Guide
 The Data Submission Tracker (DST) is a web-based tool for following the progress of Data Submissions through the NHLBI BioData Catalyst Data Management Core ingest pipeline, allowing self-service data submission and tracking. The tool is designed to be deployed on a cloud platform, such as Google Cloud Platform (GCP) or Amazon Web Services (AWS), and is built using the Django web framework in Docker containers with a PostgreSQL database.
 
 This guide will walk you through the deployment process for the Data Submission Tracker, including setting up the necessary environment variables, deploying the Django server, and configuring the database. Currently, the tool is deployed to an AWS EC2 instance; we will document the steps for deploying to AWS. If other cloud platforms are used we will need to modify this guide to reflect the changes.
