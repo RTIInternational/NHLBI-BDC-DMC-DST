@@ -4,7 +4,7 @@ files:
   - source: /scripts/docker-compose.yml
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: /scripts/stop_and_remove_containers.sh
-    destination: /home/ubuntu/scripts
+    destination: /home/ubuntu/dst-pipeline/scripts
   - source: /scripts/start_containers.sh
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: /scripts/copy_from_s3.sh
