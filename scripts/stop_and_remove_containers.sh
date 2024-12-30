@@ -1,4 +1,6 @@
 # Stop and remove images and containers
-docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
-docker rmi $(docker images -q)
+docker ps -aq | xargs -r docker stop | xargs -r docker rm
+
+docker images -q | xargs -r docker rmi
+
 
