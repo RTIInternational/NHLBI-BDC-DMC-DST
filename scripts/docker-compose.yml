@@ -15,13 +15,12 @@ services:
       - "5432:5432"
 
   bdc-dashboard-app:
+    image: nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
     container_name: bdc-dashboard-app
     environment:
       - DEBUG=True
     env_file:
       - api/.env
-    volumes:
-      - "./api:/app"
     expose:
       - 8000
       - 2222
