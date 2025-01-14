@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /home/ubuntu/scripts
+cd /home/ubuntu/dst-pipeline/scripts
 
 python3 script update_env.py
