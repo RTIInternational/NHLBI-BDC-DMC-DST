@@ -21,4 +21,5 @@ artifacts:
   files:
     - appspec.yml
     - scripts/**
+    - api/env.sample
   name: BuildArtifact
