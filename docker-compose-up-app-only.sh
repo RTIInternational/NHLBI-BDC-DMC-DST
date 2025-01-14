@@ -1,3 +1,4 @@
 #/bin/sh
 
-docker-compose up -d bdc-dashboard-app
+docker compose -f docker-compose.yml up -d bdc-dashboard-app
+
