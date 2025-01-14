@@ -27,11 +27,12 @@ hooks:
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
       runas: ubuntu
+
+
+  Install:
     - location: scripts/update_params.sh
       timeout: 600
       runas: ubuntu
-
-  Install:
     - location: scripts/load_image.sh
       timeout: 600
       runas: ubuntu
