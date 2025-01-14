@@ -16,7 +16,7 @@ files:
   - source: /scripts/update_env.py
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: /scripts/update_params.sh
-    destination: /home/ubuntu/scripts
+    destination: /home/ubuntu/dst-pipeline/scripts
 
 hooks:
   BeforeInstall:
