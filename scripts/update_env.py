@@ -54,9 +54,13 @@ def update_env_file(parameters):
 def main():
     # List of parameter names to fetch from SSM
     parameter_names = [
+        "/dst/dev/SECRET_KEY",
         "/dst/dev/POSTGRES_DB",
+        "/dst/dev/POSTGRES_USER",
         "/dst/dev/POSTGRES_PASSWORD",
-        "/dst/dev/POSTGRES_USER"    
+        "/dst/dev/JIRA_TOKEN",
+        "/dst/dev/FRESHDESK_AUTH_USER",
+        "/dst/dev/FRESHDESK_AUTH_PASSWORD",
     ]
 
     # Fetch parameters from SSM Parameter Store
