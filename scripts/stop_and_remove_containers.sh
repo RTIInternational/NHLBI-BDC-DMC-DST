@@ -1,6 +1,5 @@
-# Stop and remove images and containers
-docker ps -aq | xargs -r docker stop | xargs -r docker rm
+# Stop and remove only the dst app container
 
-docker images -q | xargs -r docker rmi
+docker rm -f bdc-dashboard-app
 
 

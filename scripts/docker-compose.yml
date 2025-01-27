@@ -1,18 +1,6 @@
 version: "3.8"
 
 services:
-  bdc-dashboard-db:
-    container_name: bdc-dashboard-db
-    image: postgres:latest
-    restart: always
-    env_file:
-      - api/.env
-    volumes:
-      - /var/lib/postgresql/data/
-    expose:
-      - 5432
-    ports:
-      - "5432:5432"
 
   bdc-dashboard-app:
     image: nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
