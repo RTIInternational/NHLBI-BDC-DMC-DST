@@ -60,7 +60,7 @@ def main():
         "/dst/dev/POSTGRES_PASSWORD",
         "/dst/dev/JIRA_TOKEN",
         "/dst/dev/FRESHDESK_AUTH_USER",
-        "/dst/dev/FRESHDESK_AUTH_PASSWORD",
+        "/dst/dev/FRESHDESK_AUTH_PASSWORD"
     ]
 
     # Fetch parameters from SSM Parameter Store
