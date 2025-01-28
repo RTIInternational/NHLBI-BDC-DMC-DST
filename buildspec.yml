@@ -2,23 +2,20 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 099963124704.dkr.ecr.us-east-1.amazonaws.com
-      - echo Pre-build phase completed.
+      - echo pre-building nothing for now...
       
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t nhlbi-bdc-dmc-dst_bdc-dashboard-app api
-      - echo Tagging the Docker image...
-      - docker tag nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest 099963124704.dkr.ecr.us-east-1.amazonaws.com/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
+      - docker save nhlbi-bdc-dmc-dst_bdc-dashboard-app > nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
+      - aws s3 cp nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar s3://bdc-dmc-dst-dashboard-app/nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
+      
       
   post_build:
     commands:
-      - echo Pushing the Docker image to Amazon ECR...
-      - docker push 099963124704.dkr.ecr.us-east-1.amazonaws.com/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
-      - echo Build and push to ECR completed.
+      - echo Nothing for post build...
 
 artifacts:
   files:
