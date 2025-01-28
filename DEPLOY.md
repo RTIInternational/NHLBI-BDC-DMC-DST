@@ -125,15 +125,16 @@ python manage.py shell
 ```
 
 In the python shell, you can create a new user with the following commands:
-
 ```python
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Replace with the desired email, and password
 email = "newuser@example.com"
 password = "securepassword"
 
-user = User.objects.create_user(email=email, password=password)
+user = User.objects.get(email=email)
 
 user.is_staff = False
 user.is_superuser = False
