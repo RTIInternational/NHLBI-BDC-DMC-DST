@@ -1,22 +1,23 @@
 version: 0.0
 os: linux
+
 files:
-  - source: /scripts/docker-compose.yml
+  - source: scripts/docker-compose.yml
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /scripts/stop_and_remove_containers.sh
+  - source: scripts/stop_and_remove_containers.sh
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /scripts/start_containers.sh
+  - source: scripts/start_containers.sh
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /scripts/copy_from_s3.sh
+  - source: scripts/copy_from_s3.sh
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /scripts/load_image.sh
+  - source: scripts/load_image.sh
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /api/.env.sample
-    destination: /home/ubuntu/dst-pipeline/scripts/api/.env
-  - source: /scripts/update_env.py
+  - source: api/.env.sample
+    destination: /home/ubuntu/dst-pipeline/api/.env
+  - source: scripts/update_env.py
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: /scripts/update_params.sh
-    destination: /home/ubuntu/scripts
+  - source: scripts/update_params.sh
+    destination: /home/ubuntu/dst-pipeline/scripts
 
 hooks:
   BeforeInstall:
@@ -25,21 +26,23 @@ hooks:
       runas: ubuntu
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
-      runas: ubuntu 
-    - location: scripts/update_params.sh
-      timeout: 600
-      runas: ubuntu     
+      runas: ubuntu
+
 
   Install:
+    - location: scripts/update_params.sh
+      timeout: 600
+      runas: ubuntu
     - location: scripts/load_image.sh
       timeout: 600
       runas: ubuntu
 
   AfterInstall:
     - location: scripts/do_nothing.sh
+      timeout: 600
       runas: ubuntu
 
   ApplicationStart:
     - location: scripts/start_containers.sh
+      timeout: 600
       runas: ubuntu
-  
