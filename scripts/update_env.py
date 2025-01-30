@@ -58,9 +58,15 @@ def main():
         "/dst/dev/POSTGRES_DB",
         "/dst/dev/POSTGRES_USER",
         "/dst/dev/POSTGRES_PASSWORD",
+        "/dst/dev/JIRA_BASE_URL",
         "/dst/dev/JIRA_TOKEN",
+        "/dst/dev/JIRA_BOARD_ID",
+        "/dst/dev/JIRA_PROJECT",
+        "/dst/dev/JIRA_EPIC_ISSUETYPE",
+        "/dst/dev/FRESHDESK_BASE_URL",
         "/dst/dev/FRESHDESK_AUTH_USER",
-        "/dst/dev/FRESHDESK_AUTH_PASSWORD"
+        "/dst/dev/FRESHDESK_AUTH_PASSWORD",
+        "/dst/dev/FRESHDESK_GROUP_ID"
     ]
 
     # Fetch parameters from SSM Parameter Store
