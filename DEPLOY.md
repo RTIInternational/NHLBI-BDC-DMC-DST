@@ -116,14 +116,30 @@ python manage.py createsuperuser
 ```
 Enter the appropriate values for the superuser when prompted.
 
-### Set up Let's Encrypt SSL certificate
-The Data Submission Tracker uses Let's Encrypt to secure the Django server with an SSL certificate. You will need to set up the Let's Encrypt SSL certificate for the Django server. You can use the following commands to set up the Let's Encrypt SSL certificate:
+### Set up a new Django user
+Because the user model is modified, new users will need to be added manually from the command line. You can use the following commands to add a new Django user:
 
 ```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx
+docker exec -it bdc-dashboard-app /bin/bash
+python manage.py shell
 ```
-Follow the prompts to set up the Let's Encrypt SSL certificate for the Django server.
+
+In the python shell, you can create a new user with the following commands:
+```python
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+# Replace with the desired email, and password
+email = "newuser@example.com"
+password = "securepassword"
+
+user = User.objects.get(email=email)
+
+user.is_staff = False
+user.is_superuser = False
+user.save()
+```
 
 ### Configure Nginx
 The Data Submission Tracker uses Nginx as a reverse proxy server to route traffic to the Django server. You will need to configure Nginx to route traffic to the Django server. You can use the following commands to configure Nginx:

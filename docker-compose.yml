@@ -16,6 +16,7 @@ services:
 
   bdc-dashboard-app:
     container_name: bdc-dashboard-app
+    restart: always
     environment:
       - DEBUG=True
     build:
