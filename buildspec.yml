@@ -9,16 +9,20 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t nhlbi-bdc-dmc-dst_bdc-dashboard-app api
-      - docker save nhlbi-bdc-dmc-dst_bdc-dashboard-app > nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
-      - aws s3 cp nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar s3://bdc-dmc-dst-dashboard-app/nhlbi-bdc-dmc-dst_bdc-dashboard-app.tar
-      
+      - echo Tagging the Docker image...
+      - docker tag nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
+
       
   post_build:
     commands:
-      - echo Nothing for post build...
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
+      - echo Build and push to ECR completed.
+
 
 artifacts:
   files:
     - appspec.yml
     - scripts/**
+    - api/.env.sample
   name: BuildArtifact
