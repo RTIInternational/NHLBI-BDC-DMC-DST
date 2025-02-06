@@ -14,7 +14,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 099963124704.dkr.ecr.us-east-1.amazonaws.com
       - echo Tagging the Docker image...
-      - docker tag dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
+      - docker tag nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app
       - docker push 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
 
   post_build:
