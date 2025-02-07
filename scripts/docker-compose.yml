@@ -14,7 +14,7 @@ services:
 
 
   bdc-dashboard-app:
-    image: nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
+    image: 099963124704.dkr.ecr.us-east-1.amazonaws.com/dst/nhlbi-bdc-dmc-dst_bdc-dashboard:latest
     container_name: bdc-dashboard-app
     environment:
       - DEBUG=True
