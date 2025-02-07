@@ -18,11 +18,12 @@ files:
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: scripts/update_params.sh
     destination: /home/ubuntu/dst-pipeline/scripts
-  - source: scripts/load_image_from_ecr.sh
-    destination: /home/ubuntu/dst-pipeline/scripts
 
 hooks:
   BeforeInstall:
+    - location: scripts/copy_from_s3.sh
+      timeout: 600
+      runas: ubuntu
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
       runas: ubuntu
@@ -32,7 +33,7 @@ hooks:
     - location: scripts/update_params.sh
       timeout: 600
       runas: ubuntu
-    - location: scripts/load_image_from_ecr.sh
+    - location: scripts/load_image.sh
       timeout: 600
       runas: ubuntu
 

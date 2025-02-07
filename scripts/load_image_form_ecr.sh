@@ -11,13 +11,4 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 echo "Pulling latest Docker image from ECR..."
 docker pull $ECR_REPO:$IMAGE_TAG
 
-echo "Stopping and removing existing containers..."
-docker-compose -f /home/ubuntu/dst-pipeline/scripts/docker-compose.yml down
 
-echo "Removing old Docker images..."
-docker image prune -f
-
-echo "Starting new container..."
-docker-compose -f /home/ubuntu/dst-pipeline/scripts/docker-compose.yml up -d
-
-echo "Deployment completed!"
