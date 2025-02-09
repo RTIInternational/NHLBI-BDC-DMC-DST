@@ -62,7 +62,23 @@ def main():
         "/dst/dev/JIRA_TOKEN",
         "/dst/dev/JIRA_BOARD_ID",
         "/dst/dev/JIRA_PROJECT",
-        "/dst/dev/JIRA_EPIC_ISSUETYPE",
+        "/dst/dev/JIRA_EPIC_ISSUETYPE"
+        
+    ]
+
+    # Fetch parameters from SSM Parameter Store
+    parameters = fetch_parameters_from_ssm(parameter_names)
+
+    if parameters:
+        # Update the .env file with fetched parameters
+        update_env_file(parameters)
+        print(".env file updated successfully.")
+    else:
+        print("No parameters fetched from SSM.")
+        
+    # Beacuse only up to 10 parameters might be fetched a a time
+    # List of parameter names to fetch from SSM
+    parameter_names = [
         "/dst/dev/FRESHDESK_BASE_URL",
         "/dst/dev/FRESHDESK_AUTH_USER",
         "/dst/dev/FRESHDESK_AUTH_PASSWORD",
@@ -78,6 +94,7 @@ def main():
         print(".env file updated successfully.")
     else:
         print("No parameters fetched from SSM.")
+                
 
 if __name__ == "__main__":
     # Ensure .env file exists
