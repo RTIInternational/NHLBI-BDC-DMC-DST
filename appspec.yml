@@ -13,7 +13,7 @@ files:
   - source: scripts/load_image.sh
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: api/.env.sample
-    destination: /home/ubuntu/dst-pipeline/api/
+    destination: /home/ubuntu/dst-pipeline/api
   - source: scripts/update_env.py
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: scripts/update_params.sh
@@ -29,7 +29,6 @@ hooks:
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
       runas: ubuntu
-
 
   Install:
     - location: scripts/update_params.sh
