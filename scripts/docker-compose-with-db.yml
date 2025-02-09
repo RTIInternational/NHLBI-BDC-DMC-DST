@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   bdc-dashboard-db:
     container_name: bdc-dashboard-db
@@ -13,17 +14,21 @@ services:
     ports:
       - "5432:5432"
 
-
   bdc-dashboard-app:
-    image: nhlbi-bdc-dmc-dst_bdc-dashboard-app:latest
     container_name: bdc-dashboard-app
     environment:
       - DEBUG=True
+    build:
+      context: api
+      dockerfile: Dockerfile
     env_file:
       - api/.env
+    volumes:
+      - "./api:/app"
     expose:
       - 8000
       - 2222
     ports:
       - "8000:8000"
-   
+    depends_on:
+      - bdc-dashboard-db
