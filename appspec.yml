@@ -20,6 +20,7 @@ files:
     destination: /home/ubuntu/dst-pipeline/scripts
 
 
+
 hooks:
   BeforeInstall:
     - location: scripts/copy_from_s3.sh
