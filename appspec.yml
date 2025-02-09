@@ -13,7 +13,7 @@ files:
   - source: scripts/load_image.sh
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: api/.env.sample
-    destination: /home/ubuntu/dst-pipeline/api/.env
+    destination: /home/ubuntu/dst-pipeline/api/
   - source: scripts/update_env.py
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: scripts/update_params.sh
