@@ -24,7 +24,7 @@ files:
 hooks:
   BeforeInstall:
     - location: scripts/copy_from_s3.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
@@ -35,7 +35,7 @@ hooks:
       timeout: 600
       runas: ubuntu
     - location: scripts/load_image.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
 
   AfterInstall:
