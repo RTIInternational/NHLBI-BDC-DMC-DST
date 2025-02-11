@@ -45,5 +45,5 @@ hooks:
 
   ApplicationStart:
     - location: scripts/start_containers.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
