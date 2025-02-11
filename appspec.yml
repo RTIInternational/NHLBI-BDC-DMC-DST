@@ -39,7 +39,7 @@ hooks:
       runas: ubuntu
 
   AfterInstall:
-    - location: scripts/do_nothing.sh
+    - location: scripts/update_params.sh
       timeout: 600
       runas: ubuntu
 
