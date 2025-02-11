@@ -3,6 +3,6 @@
 #cp api/.env.sample /home/ubuntu/dst-pipeline/scripts/api/.env
 cd /home/ubuntu/dst-pipeline/scripts
 
-cp api/.env.sample api/.env
+cp api/.env.sample /home/ubuntu/dst-pipeline/scripts/api/.env
 
 python3 update_env.py
