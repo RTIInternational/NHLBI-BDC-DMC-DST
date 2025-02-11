@@ -6,3 +6,5 @@ cd /home/ubuntu/dst-pipeline/scripts
 
 # Build and start the containers
 docker-compose up -d bdc-dashboard-app
+
+#to test inspector

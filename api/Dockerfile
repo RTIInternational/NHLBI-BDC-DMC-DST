@@ -25,6 +25,7 @@ RUN set -eux; \
   chmod +x /sbin/tini; \
   chown -R 1001:0 ${APP_HOME};
 
+  
 USER 1001
 
 ENTRYPOINT ["/sbin/tini", "--"]
