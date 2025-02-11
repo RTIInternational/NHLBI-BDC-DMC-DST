@@ -5,4 +5,6 @@ cd /home/ubuntu/dst-pipeline/scripts
 
 cp api/.env.sample /home/ubuntu/dst-pipeline/scripts/api/.env
 
+chmod  664 /home/ubuntu/dst-pipeline/scripts/api/.env
+
 python3 update_env.py
