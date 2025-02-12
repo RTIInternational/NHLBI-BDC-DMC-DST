@@ -28,7 +28,8 @@ RUN set -eux; \
   pip install --upgrade certifi; \
   python3.11 -c "import certifi; print(certifi.__version__)"; \
   pip install --upgrade cryptography; \
-  
+  pip install --upgrade django; \
+
   # add perms
   chmod a+w ${APP_HOME}/tracker/migrations; \
   chmod a+x ${APP_HOME}/docker_entrypoint.sh; \
