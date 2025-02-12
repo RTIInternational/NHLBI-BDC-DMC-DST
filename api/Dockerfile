@@ -1,29 +1,45 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# syntax=docker/dockerfile:1
+FROM registry.access.redhat.com/ubi8/python-311@sha256:ec7fe289b34142aa81a620d49fc4fffb7f329c419a2d45780bd9055a4e106bee
 
-# Install PostgreSQL dependencies (needed for psycopg2)
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+#FROM --platform=linux/amd64 registry.access.redhat.com/ubi8/python-311@sha256:ec7fe289b34142aa81a620d49fc4fffb7f329c419a2d45780bd9055a4e106bee
 
-# Set the working directory in the container
-WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt /app/
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+ENV APP_HOME=/app \
+  PYTHONUNBUFFERED=1 \
+  TINI_VERSION=v0.19.0
 
-# Copy the current directory contents into the container at /app
-COPY . /app/
+WORKDIR ${APP_HOME}
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+COPY . ./
 
-# Define environment variable
-ENV DJANGO_ENV=dev
+USER 0
+RUN set -eux; \
+  yum update -y; \
+  # install tini
+  wget https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini -O /sbin/tini; \
+  # install python modules
+  python3.11 -m pip install --upgrade pip; \
+  python3.11 -m pip install -r requirements.txt; \
+  
 
-# Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+  # Django collectstatic
+  python3.11 /app/manage.py collectstatic --noinput; \
+
+  pip install --upgrade certifi; \
+  python3.11 -c "import certifi; print(certifi.__version__)"; \
+  pip install --upgrade cryptography; \
+  pip install --upgrade django; \
+
+  # add perms
+  chmod a+w ${APP_HOME}/tracker/migrations; \
+  chmod a+x ${APP_HOME}/docker_entrypoint.sh; \
+  chmod +x /sbin/tini; \
+  chown -R 1001:0 ${APP_HOME};
+
+
+USER 1001
+
+ENTRYPOINT ["/sbin/tini", "--"]
+EXPOSE 8000 2222
+CMD ["./docker_entrypoint.sh"]
