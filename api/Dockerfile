@@ -20,6 +20,7 @@ RUN set -eux; \
   # install python modules
   python3.11 -m pip install --upgrade pip; \
   python3.11 -m pip install -r requirements.txt; \
+  pip install --upgrade certifi; \
   # Django collectstatic
   python3.11 /app/manage.py collectstatic --noinput; \
   # add perms
