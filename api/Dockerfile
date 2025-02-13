@@ -37,6 +37,9 @@ RUN set -eux; \
 
 USER 1001
 
+RUN yum install -y ca-certificates && \
+    update-ca-trust
+    
 ENTRYPOINT ["/sbin/tini", "--"]
 EXPOSE 8000 2222
 CMD ["./docker_entrypoint.sh"]
