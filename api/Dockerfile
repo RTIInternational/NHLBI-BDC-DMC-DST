@@ -26,8 +26,9 @@ RUN set -eux; \
   python3.11 /app/manage.py collectstatic --noinput; \
 
   pip install --upgrade certifi; \
+  python3 -c "import certifi; print(certifi.__version__)"; \
   pip install --upgrade cryptography; \
-  
+
   # add perms
   chmod a+w ${APP_HOME}/tracker/migrations; \
   chmod a+x ${APP_HOME}/docker_entrypoint.sh; \
