@@ -19,18 +19,18 @@ RUN set -eux; \
   # install python modules
   python3.11 -m pip install --upgrade pip; \
   python3.11 -m pip install -r requirements.txt; \
-  python3.11 -m pip install --upgrade certifi django cryptography;
-
-
+  python3.11 -m pip install --upgrade certifi django cryptography; \
   
-
   # Django collectstatic
   python3.11 /app/manage.py collectstatic --noinput; \
 
-  # pip install --upgrade certifi; \
+  pip install --upgrade certifi; \
+  pip install --upgrade cryptography; \
   python3 -c "import certifi; print(certifi.__version__)"; \
+  python3 -c "import cryptography; print(cryptography.__version__)"; \
   python3.11 -c "import certifi; print(certifi.__version__)"; \
-  # pip install --upgrade cryptography; \
+  python3.11 -c "import cryptography; print(cryptography.__version__)"; \
+  
 
   # add perms
   chmod a+w ${APP_HOME}/tracker/migrations; \
