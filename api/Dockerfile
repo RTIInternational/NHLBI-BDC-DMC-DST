@@ -36,11 +36,7 @@ RUN set -eux; \
   chown -R 1001:0 ${APP_HOME};
 
 
-RUN yum install -y ca-certificates && \
-    update-ca-trust
-
 USER 1001
-
 
 
 ENTRYPOINT ["/sbin/tini", "--"]
