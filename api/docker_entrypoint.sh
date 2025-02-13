@@ -12,6 +12,7 @@ echo "Apply database migrations"
 python3 manage.py migrate
 
 # Address vulnarebilities findings
+echo "Upgrade certificate"
 pip install --upgrade certifi
 
 # Start server
