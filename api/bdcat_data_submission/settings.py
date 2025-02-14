@@ -75,7 +75,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
-    "tracker.middleware.CustomHeaderMiddleware"
+    "tracker.middleware.CustomHeaderMiddleware",
+    "allauth.account.middleware.AccountMiddleware"
 ]
 
 TEMPLATES = [
