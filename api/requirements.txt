@@ -1,9 +1,16 @@
 certifi
 cryptography
 django>=5.0
+django-allauth
+django-debug-toolbar
+django-environ
+django_extensions
+django-simple-history
+django-widget-tweaks
 environ
 grpcio
 oauthlib
+psycopg2-binary
 python-dotenv
 pyyaml
 requests
