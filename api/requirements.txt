@@ -1,6 +1,6 @@
 certifi
 cryptography
-django>=5.0
+django>=4.2,<5.0
 django-allauth
 django-debug-toolbar
 django-environ

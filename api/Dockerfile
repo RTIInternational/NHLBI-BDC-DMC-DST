@@ -9,7 +9,7 @@ ENV APP_HOME=/app \
 WORKDIR ${APP_HOME}
 
 # Install required dependencies
-RUN apt-get update -y && apt-get install -y \
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     gcc g++ make zlib1g-dev libffi-dev libssl-dev \
     libreadline-dev libbz2-dev libsqlite3-dev \
     libncurses5-dev libgdbm-dev libnss3-dev \
