@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-export PATH="/.pyenv/bin:${PATH}"; \
-eval "$(pyenv init -)"; \
+# Activate virtual environment
+source /opt/venv/bin/activate
 
 # Apply database migrations
 echo "Apply database migrations"

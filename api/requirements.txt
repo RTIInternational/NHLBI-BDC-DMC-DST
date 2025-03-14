@@ -18,3 +18,4 @@ rsa
 setuptools
 sqlparse
 urllib3
+whitenoise

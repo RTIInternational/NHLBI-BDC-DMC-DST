@@ -1,51 +1,45 @@
+# syntax=docker/dockerfile:1
+# FROM ubuntu:24.04
 FROM ubuntu:24.04
 
-# Set environment variables
 ENV APP_HOME=/app \
-    PYTHON_VERSION=3.13.0 \
     PYTHONUNBUFFERED=1 \
+    DEBIAN_FRONTEND=noninteractive \
     TINI_VERSION=v0.19.0
 
 WORKDIR ${APP_HOME}
 
-# Install required dependencies
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
-    gcc g++ make zlib1g-dev libffi-dev libssl-dev \
-    libreadline-dev libbz2-dev libsqlite3-dev \
-    libncurses5-dev libgdbm-dev libnss3-dev \
-    wget curl tk-dev xz-utils \
+# Install dependencies and Python 3.12
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    python3.12 python3.12-venv python3.12-dev \
+    wget curl git build-essential libpq-dev \
+    && ln -s /usr/bin/python3.12 /usr/bin/python3 \
+    && ln -s /usr/bin/python3.12 /usr/bin/python \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and build Python 3.13
-RUN wget "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz" && \
-    tar -xf Python-${PYTHON_VERSION}.tar.xz && cd Python-${PYTHON_VERSION} && \
-    ./configure --enable-optimizations && \
-    make -j$(nproc) && make altinstall && \
-    cd .. && rm -rf Python-${PYTHON_VERSION}*
-
-# Set Python 3.13 as default
-RUN ln -sf /usr/local/bin/python3.13 /usr/bin/python3
-
-# Verify installation
-RUN python3 --version
-
-# Create virtual environment
-RUN python3 -m venv /venv && \
-    /venv/bin/pip install --upgrade pip
-
 # Install tini
-RUN wget "https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini" -O /sbin/tini && \
-    chmod +x /sbin/tini
+RUN wget https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini -O /sbin/tini && chmod +x /sbin/tini
 
-# Copy application files
 COPY . ./
 
-# Set permissions
-RUN chmod +x /app/docker_entrypoint.sh /sbin/tini && \
-    chown -R 1001:1001 ${APP_HOME}
+# Install Python dependencies
+RUN python3 -m venv /opt/venv \
+    && . /opt/venv/bin/activate \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt
 
-USER 1001:1001
+# Django collectstatic
+RUN . /opt/venv/bin/activate \
+    && python3 /app/manage.py collectstatic --noinput
+
+# Adjust permissions
+RUN chmod a+w ${APP_HOME}/tracker/migrations \
+    && chmod a+x ${APP_HOME}/docker_entrypoint.sh \
+    && chown -R 1001:0 ${APP_HOME}
+
+USER 1001
 
 ENTRYPOINT ["/sbin/tini", "--"]
-EXPOSE 8000
-CMD ["/venv/bin/python", "/app/docker_entrypoint.sh"]
+EXPOSE 8000 2222
+CMD ["./docker_entrypoint.sh"]
