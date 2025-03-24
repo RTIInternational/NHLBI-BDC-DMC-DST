@@ -19,3 +19,5 @@ setuptools
 sqlparse
 urllib3
 whitenoise
+django-health-check
+
