@@ -155,7 +155,7 @@ if os.environ.get("POSTGRES_HOST", None):
             "NAME": env("POSTGRES_DB"),
             "USER": env("POSTGRES_USER"),
             "PASSWORD": env("POSTGRES_PASSWORD"),
-            "HOST": postgres_host,
+            "HOST": env("POSTGRES_HOST"),
             "PORT": env("POSTGRES_PORT"),
         }
     }
@@ -210,9 +210,13 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = int(os.environ.get("ALLAUTH_SITE_ID", 3))
 AUTH_USER_MODEL = "tracker.User"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+#VBCHANGE ACCOUNT_EMAIL_REQUIRED = True
+#VBCHANGE ACCOUNT_USERNAME_REQUIRED = False
+#VBCHANGE ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+
+
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("ACCOUNT_DEFAULT_HTTP_PROTOCOL", "https")
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_ADAPTER = "nihsso.adapters.NIHSSOSocialAccountAdapter"
