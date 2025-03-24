@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
-# FROM ubuntu:24.04
 FROM ubuntu:24.04
+
+# FOR MAC users uncomment this and comment line #2
+#FROM --platform=linux/amd64 ubuntu:24.04
 
 ENV APP_HOME=/app \
     PYTHONUNBUFFERED=1 \
