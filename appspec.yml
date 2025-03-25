@@ -13,36 +13,37 @@ files:
   - source: scripts/load_image.sh
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: api/.env.sample
-    destination: /home/ubuntu/dst-pipeline/api/.env
+    destination: /home/ubuntu/dst-pipeline/scripts/api
   - source: scripts/update_env.py
     destination: /home/ubuntu/dst-pipeline/scripts
   - source: scripts/update_params.sh
     destination: /home/ubuntu/dst-pipeline/scripts
 
+
+
 hooks:
   BeforeInstall:
     - location: scripts/copy_from_s3.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
     - location: scripts/stop_and_remove_containers.sh
       timeout: 600
       runas: ubuntu
-
 
   Install:
     - location: scripts/update_params.sh
       timeout: 600
       runas: ubuntu
     - location: scripts/load_image.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
 
   AfterInstall:
-    - location: scripts/do_nothing.sh
+    - location: scripts/update_params.sh
       timeout: 600
       runas: ubuntu
 
   ApplicationStart:
     - location: scripts/start_containers.sh
-      timeout: 600
+      timeout: 800
       runas: ubuntu
