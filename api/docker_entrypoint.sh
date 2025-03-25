@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-# Activate virtual environment
-source /opt/venv/bin/activate
+export PATH="/.pyenv/bin:${PATH}"; \
+eval "$(pyenv init -)"; \
 
 # Apply database migrations
 echo "Apply database migrations"
@@ -10,9 +10,6 @@ python3 manage.py makemigrations
 # Apply database migrations
 echo "Apply database migrations"
 python3 manage.py migrate
-
-# Create super user
-python3 create_superuser.py
 
 # Start server
 echo "Starting server"

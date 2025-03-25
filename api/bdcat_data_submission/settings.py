@@ -75,8 +75,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
-    "tracker.middleware.CustomHeaderMiddleware",
-    "allauth.account.middleware.AccountMiddleware"
+    "tracker.middleware.CustomHeaderMiddleware"
 ]
 
 TEMPLATES = [
@@ -155,7 +154,7 @@ if os.environ.get("POSTGRES_HOST", None):
             "NAME": env("POSTGRES_DB"),
             "USER": env("POSTGRES_USER"),
             "PASSWORD": env("POSTGRES_PASSWORD"),
-            "HOST": env("POSTGRES_HOST"),
+            "HOST": postgres_host,
             "PORT": env("POSTGRES_PORT"),
         }
     }
@@ -213,8 +212,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-
-
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("ACCOUNT_DEFAULT_HTTP_PROTOCOL", "https")
 ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIALACCOUNT_ADAPTER = "nihsso.adapters.NIHSSOSocialAccountAdapter"
