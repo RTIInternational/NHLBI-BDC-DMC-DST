@@ -83,7 +83,7 @@ def main():
         "/dst/dev/FRESHDESK_AUTH_USER",
         "/dst/dev/FRESHDESK_AUTH_PASSWORD",
         "/dst/dev/FRESHDESK_GROUP_ID",
-        "/dst/dev/AWS_SITE_UR",
+        "/dst/dev/AWS_SITE_URL",
         "/dst/dev/DST_SUPERUSER_EMAIL",
         "/dst/dev/DST_SUPERUSER_PASSWORD"
     ]
