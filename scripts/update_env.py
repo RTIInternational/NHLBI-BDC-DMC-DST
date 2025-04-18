@@ -50,6 +50,9 @@ def update_env_file(parameters):
         # Update the .env file
         set_key(env_file_path, key_name, value)
         print(f"Updated {key_name} in .env file.")
+        
+    # Update DEPLOYED param
+    set_key(env_file_path, 'DEPLOYED', 'True')    
 
 def main():
     # List of parameter names to fetch from SSM

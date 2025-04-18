@@ -47,3 +47,7 @@ hooks:
     - location: scripts/start_containers.sh
       timeout: 800
       runas: ubuntu
+    - location: scripts/delete_tar.sh
+      timeout: 800
+      runas: ubuntu  
+
