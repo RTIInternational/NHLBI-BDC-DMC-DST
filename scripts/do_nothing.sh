@@ -1,1 +1,1 @@
-echo "Do nothing script...." 
+echo "Do nothing script." 
