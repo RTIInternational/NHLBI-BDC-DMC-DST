@@ -2,7 +2,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo pre-building nothing for now...
+      - echo pre-building - login to docker....
+      - docker login -u "dmcdstservice" --password "P7a5nwcczsr"
 
       
   build:
